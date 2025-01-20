@@ -1,9 +1,41 @@
-export type Entry = {
-  entryId?: number;
+import { User } from '../components/UserContext';
+
+export type UnsavedEntry = {
   title: string;
   notes: string;
   photoUrl: string;
 };
+export type Entry = UnsavedEntry & {
+  entryId?: number;
+};
+
+const authKey = 'um.auth';
+
+type Auth = {
+  user: User;
+  token: string;
+};
+
+export function saveAuth(user: User, token: string): void {
+  const auth: Auth = { user, token };
+  localStorage.setItem(authKey, JSON.stringify(auth));
+}
+
+export function removeAuth(): void {
+  localStorage.removeItem(authKey);
+}
+
+export function readUser(): User | undefined {
+  const auth = localStorage.getItem(authKey);
+  if (!auth) return undefined;
+  return (JSON.parse(auth) as Auth).user;
+}
+
+export function readToken(): string | undefined {
+  const auth = localStorage.getItem(authKey);
+  if (!auth) return undefined;
+  return (JSON.parse(auth) as Auth).token;
+}
 
 export async function readEntries(): Promise<Entry[]> {
   const response = await fetch('/api/entries');
@@ -23,7 +55,7 @@ export async function readEntry(entryId: number): Promise<Entry | undefined> {
   return data;
 }
 
-export async function addEntry(entry: Entry): Promise<Entry> {
+export async function insertEntry(entry: Entry): Promise<Entry> {
   const response = await fetch('/api/entries/', {
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
