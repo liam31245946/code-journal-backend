@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars -- Remove me */
 import 'dotenv/config';
 import pg from 'pg';
 import express from 'express';
@@ -20,7 +19,6 @@ const db = new pg.Pool({
 });
 
 const app = express();
-
 app.use(express.json());
 
 app.get('/api/entries', async (req, res, next) => {
