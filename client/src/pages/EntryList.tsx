@@ -2,17 +2,22 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaPencilAlt } from 'react-icons/fa';
 import { Entry, readEntries } from '../lib/data';
+import { useUser } from '../components/useUser';
 
 export function EntryList() {
   const [entries, setEntries] = useState<Entry[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown>();
 
+  const { user } = useUser();
+
   useEffect(() => {
     async function load() {
       try {
-        const entries = await readEntries();
-        setEntries(entries);
+        if (user) {
+          const entries = await readEntries();
+          setEntries(entries);
+        }
       } catch (err) {
         setError(err);
       } finally {
@@ -32,6 +37,8 @@ export function EntryList() {
     );
   }
 
+  if (!user) return null;
+
   return (
     <div className="container">
       <div className="row">
@@ -47,6 +54,7 @@ export function EntryList() {
       <div className="row">
         <div className="column-full">
           <ul className="entry-ul">
+            {entries.length === 0 && <span>There are no entries.</span>}
             {entries.map((entry) => (
               <EntryCard key={entry.entryId} entry={entry} />
             ))}

@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Entries } from './Entries';
-import { useUser } from '../components/useUSer';
+import { useUser } from '../components/useUser';
 
 export function Home() {
   const { user, handleSignOut } = useUser();
@@ -46,7 +45,6 @@ export function Home() {
         </p>
       )}
       {!user && <p>Not signed in</p>}
-      {user && <Entries />}
     </div>
   );
 }

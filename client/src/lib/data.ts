@@ -38,7 +38,12 @@ export function readToken(): string | undefined {
 }
 
 export async function readEntries(): Promise<Entry[]> {
-  const response = await fetch('/api/entries');
+  const req = {
+    headers: {
+      Authorization: `Bearer ${readToken()}`,
+    },
+  };
+  const response = await fetch('/api/entries', req);
   if (!response.ok) {
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
@@ -47,7 +52,12 @@ export async function readEntries(): Promise<Entry[]> {
 }
 
 export async function readEntry(entryId: number): Promise<Entry | undefined> {
-  const response = await fetch(`/api/entries/${entryId}`);
+  const req = {
+    headers: {
+      Authorization: `Bearer ${readToken()}`,
+    },
+  };
+  const response = await fetch(`/api/entries/${entryId}`, req);
   if (!response.ok) {
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
@@ -58,7 +68,10 @@ export async function readEntry(entryId: number): Promise<Entry | undefined> {
 export async function insertEntry(entry: Entry): Promise<Entry> {
   const response = await fetch('/api/entries/', {
     method: 'post',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${readToken()}`,
+    },
     body: JSON.stringify(entry),
   });
   if (!response.ok) {
@@ -71,7 +84,10 @@ export async function insertEntry(entry: Entry): Promise<Entry> {
 export async function updateEntry(entry: Entry): Promise<Entry> {
   const response = await fetch(`/api/entries/${entry.entryId}`, {
     method: 'put',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${readToken()}`,
+    },
     body: JSON.stringify(entry),
   });
   if (!response.ok) {
@@ -84,7 +100,9 @@ export async function updateEntry(entry: Entry): Promise<Entry> {
 export async function removeEntry(entryId: number): Promise<void> {
   const response = await fetch(`/api/entries/${entryId}`, {
     method: 'delete',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      Authorization: `Bearer ${readToken()}`,
+    },
   });
   if (!response.ok) {
     throw new Error(`HTTP error! Status: ${response.status}`);

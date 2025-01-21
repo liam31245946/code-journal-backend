@@ -3,9 +3,8 @@ import { NavBar } from './components/NavBar';
 import { EntryForm } from './pages/EntryForm';
 import { EntryList } from './pages/EntryList';
 import { NotFound } from './pages/NotFound';
-import { AuthPage } from './pages/AuthPage';
-
 import './App.css';
+import { AuthPage } from './pages/AuthPage';
 import { UserProvider } from './components/UserContext';
 
 export default function App() {
