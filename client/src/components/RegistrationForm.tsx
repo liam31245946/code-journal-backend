@@ -2,9 +2,6 @@ import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User } from './UserContext';
 
-/**
- * Form that registers a user.
- */
 export function RegistrationForm() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();

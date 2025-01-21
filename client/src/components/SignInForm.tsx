@@ -7,9 +7,6 @@ type AuthData = {
   token: string;
 };
 
-/**
- * Form that signs in a user.
- */
 export function SignInForm() {
   const { handleSignIn } = useUser();
   const [isLoading, setIsLoading] = useState(false);
