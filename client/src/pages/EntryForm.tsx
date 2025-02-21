@@ -2,18 +2,12 @@ import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   type Entry,
-  addEntry,
+  insertEntry,
   readEntry,
   removeEntry,
   updateEntry,
-} from '../data';
+} from '../lib/data';
 
-/**
- * Form that adds or edits an entry.
- * Gets `entryId` from route.
- * If `entryId` === 'new' then creates a new entry.
- * Otherwise reads the entry and edits it.
- */
 export function EntryForm() {
   const { entryId } = useParams();
   const [entry, setEntry] = useState<Entry>();
@@ -48,7 +42,7 @@ export function EntryForm() {
     if (isEditing) {
       updateEntry({ ...entry, ...newEntry });
     } else {
-      addEntry(newEntry);
+      insertEntry(newEntry);
     }
     navigate('/');
   }
